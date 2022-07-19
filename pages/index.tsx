@@ -3,12 +3,13 @@ import type { NextPage } from "next";
 import Box from "../components/Box";
 import Floor from "../components/Floor";
 import Light from "../components/LightBulb";
-import OrbitControls from "../components/OrbitControls";
 import styles from "../styles/Home.module.css";
 import Draggable from "../components/Draggable";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
+import { MapControls } from "@react-three/drei";
 
 const Home: NextPage = () => {
+  const [isControlsEnabled, setIsControlsEnabled] = useState(true);
   return (
     <div className={styles.scene}>
       <Canvas
@@ -20,12 +21,15 @@ const Home: NextPage = () => {
       >
         <ambientLight color={"white"} intensity={0.2} />
         <Light position={[0, 3, 0]} />
-        <Draggable>
+        <Draggable
+          onDragStart={() => setIsControlsEnabled(false)}
+          onDragEnd={() => setIsControlsEnabled(true)}
+        >
           <Suspense fallback={null}>
             <Box />
           </Suspense>
         </Draggable>
-        <OrbitControls />
+        <MapControls enabled={isControlsEnabled} />
         <Floor position={[0, -1, 0]} />
       </Canvas>
     </div>

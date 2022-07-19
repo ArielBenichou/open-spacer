@@ -16,11 +16,17 @@ declare global {
   }
 }
 
-function Draggable(props: React.PropsWithChildren) {
+interface DraggableProps extends React.PropsWithChildren {
+  onDragStart: () => void;
+  onDragEnd: () => void;
+}
+
+function Draggable(props: DraggableProps) {
   const groupRef = useRef<Group>(null);
   const controlsRef = useRef<DragControls>(null);
   const [objects, setObjects] = useState<Object3D<Event>[]>([]);
-  const { camera, gl, scene } = useThree();
+  const { camera, gl } = useThree();
+
   useEffect(() => {
     if (!groupRef?.current) return;
     setObjects(groupRef.current.children);
@@ -28,14 +34,16 @@ function Draggable(props: React.PropsWithChildren) {
 
   useEffect(() => {
     if (!controlsRef?.current) return;
-    controlsRef.current.addEventListener("hoveron", () => {
-      //HACK
-      (scene as any).orbitControls.enabled = false;
-    });
-    controlsRef.current.addEventListener("hoveroff", () => {
-      //HACK
-      (scene as any).orbitControls.enabled = true;
-    });
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      controlsRef.current.addEventListener("touchstart", () => {
+        console.log("touchstart");
+        props.onDragStart();
+      });
+      controlsRef.current.addEventListener("touchend", props.onDragEnd);
+      return;
+    }
+    controlsRef.current.addEventListener("hoveron", props.onDragStart);
+    controlsRef.current.addEventListener("hoveroff", props.onDragEnd);
   }, [objects]);
   return (
     <group ref={groupRef}>
