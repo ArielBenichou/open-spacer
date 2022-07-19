@@ -17,7 +17,8 @@ const Home: NextPage = () => {
   };
   return (
     <div>
-      <div className={styles.addButton} onClick={resetBoxPosition}>
+      <h1 className="text-3xl z-10 absolute top-10 left-1/2 transform -translate-x-1/2 -translate-y-1/2">Open Spacer</h1>
+      <div className="bg-rose-600 text-white hover:bg-rose-700 font-bold w-24 h-10 flex justify-center items-center rounded absolute z-10 top-5 left-7 cursor-pointer" onClick={resetBoxPosition}>
         Reset Box
       </div>
       <div className={styles.scene}>
