@@ -1,14 +1,14 @@
 import { MeshProps, useLoader } from "@react-three/fiber";
 import React from "react";
-import { TextureLoader } from "three";
+import { Mesh, TextureLoader } from "three";
 
-function Box(props: MeshProps) {
+function Box(props: MeshProps, ref: React.Ref<Mesh>) {
   const texture = useLoader(TextureLoader, "/box-texture.jpg");
   return (
-    <mesh {...props} receiveShadow={true} castShadow={true}>
+    <mesh {...props} ref={ref} receiveShadow={true} castShadow={true}>
       <boxBufferGeometry />
       <meshPhysicalMaterial map={texture} color={"white"} />
     </mesh>
   );
 }
-export default Box;
+export default React.forwardRef(Box);
