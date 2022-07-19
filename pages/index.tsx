@@ -1,11 +1,11 @@
 import { Canvas } from "@react-three/fiber";
 import type { NextPage } from "next";
-import Box from "./components/Box";
-import Floor from "./components/Floor";
-import Light from "./components/LightBulb";
-import OrbitControls from "./components/OrbitControls";
+import Box from "../components/Box";
+import Floor from "../components/Floor";
+import Light from "../components/LightBulb";
+import OrbitControls from "../components/OrbitControls";
 import styles from "../styles/Home.module.css";
-import Draggable from "./components/Draggable";
+import Draggable from "../components/Draggable";
 import { Suspense } from "react";
 
 const Home: NextPage = () => {
